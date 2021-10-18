@@ -23,15 +23,20 @@ const NewTodo: React.FC<NewTodoProps> = ({ addTodo }) => {
     <form onSubmit={handleSubmit}>
       <fieldset>
         <legend>Add todo</legend>
+        <div className="form-control">
+          <input
+            type="text"
+            name="todo"
+            id="todo"
+            value={todo}
+            onChange={handleChange}
+            placeholder="add todo" />
+
+        </div>
         <input
-          type="text"
-          name="todo"
-          id="todo"
-          value={todo}
-          onChange={handleChange}
-          placeholder="add todo" />
-        <br />
-        <input type="submit" value="add todo" />
+          type="submit"
+          value="add todo"
+          className="btn" />
       </fieldset>
     </form>
   )
