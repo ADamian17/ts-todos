@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+import './NewTodo.css';
+
 interface NewTodoProps {
   addTodo: (text: string) => void;
 }

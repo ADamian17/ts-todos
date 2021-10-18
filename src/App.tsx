@@ -3,22 +3,22 @@ import React, { useState } from 'react';
 import TodoList from './components/TodoList';
 import NewTodo from './components/NewTodo';
 
-import { Todo } from './components/utils/Todo.interface';
+import { Todo, TodosState } from './utils/Todo.interface';
 
 const App: React.FC = () => {
 
-  const [todos, setTodos] = useState<Todo[]>([
-    {
+  const [todos, setTodos] = useState<TodosState>({
+    't0': {
       id: 't0',
       text: 'Finish course'
     },
-    {
+    't1': {
       id: 't1',
       text: 'so cool'
     }
-  ]);
+  });
 
-  const [currentId, setCurrentId] = useState<number>(todos.length)
+  const [currentId, setCurrentId] = useState<number>(Object.keys(todos).length)
   const [error, setError] = useState<string | null>(null)
 
   /* add new todo */
@@ -30,10 +30,21 @@ const App: React.FC = () => {
       text
     }
 
-    setTodos((prevState: Todo[]) => [...prevState, newTodo])
+    setTodos((prevState: TodosState) => ({ [newTodo.id]: newTodo, ...prevState }))
     setCurrentId((prevId: number) => ++prevId)
     setError(null)
   };
+
+  /* remove new todo */
+  const removeTodo = (todoId: string) => {
+    setTodos((prevState: TodosState) => {
+      if (prevState[todoId]) {
+        delete prevState[todoId];
+        return { ...prevState }
+      }
+      return prevState;
+    })
+  }
 
   return (
     <div className="App">
@@ -43,7 +54,7 @@ const App: React.FC = () => {
           color: 'red'
         }}>{error}</p> : ''
       }
-      <TodoList todos={todos} />
+      <TodoList todos={Object.values(todos)} removeTodo={removeTodo} />
     </div>
   );
 }
